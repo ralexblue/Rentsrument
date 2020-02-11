@@ -1,0 +1,3 @@
+{"message":"Instument with id 2 deleted","level":"info"}
+{"message":"Instrument with id 2 not found","level":"error"}
+{"message":"Instument with id 3 deleted","level":"info"}
