@@ -6,5 +6,4 @@ CREATE TABLE instrument (
     category typ NOT NULL, 
     description TEXT,
     date_created TIMESTAMP DEFAULT now()
-    
 );

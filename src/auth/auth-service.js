@@ -17,29 +17,10 @@ const authService ={
              algorithms: ['HS256'],
            })
          },
-    getUser(db,user){
-    db
-    .where({ user_name: user.user_name})
+    getUser(db,loginUser){
+    return db ('users')
+    .where({user_name:loginUser.user_name||loginUser.sub})
     .first()
-    .then(dbUser=>{
-        if(!dbUser)
-        return res.status(400).json({
-            error: 'Incorrect user_name or password',
-        })
-        return bcrypt.compare(loginUser.password,dbUser.password)
-        .then(compareMatch=>{
-            if(!compareMatch)
-            return res.status(400).json({
-               error: 'Incorrect user_name or password',
-             })
-             const sub =dbUser.user_name
-             const payload={user_id: dbUser.id}
-             const token= this.createJwt(sub,payload);
-            res.send({
-                authToken:token,
-            });
-        })
-    })
     }
 }
 

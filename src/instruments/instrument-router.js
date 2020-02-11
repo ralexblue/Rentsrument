@@ -4,11 +4,7 @@ const logger = require('../logger');
 const bodyParser=express.json();
 const instrumentService=require('./instrument-service')
 const { requireAuth } = require('../middleware/jwt-auth')
-
-
 const instrumentRouter=express.Router();
-
-
 
 instrumentRouter
 .route('/')
@@ -29,6 +25,7 @@ instrumentRouter
             })
         }
     }
+    newInstrument.user_id=req.user.id
     instrumentService.addanitem(req.app.get('db'),newInstrument)
     .then(instrument=>{
         res.status(201)
@@ -78,6 +75,7 @@ instrumentRouter
           }
         })
     }
+    updateInstrument.user_id=req.user.id;
     instrumentService.updateitem(req.app.get('db'),req.params.id,updateInstrument)
     .then(numRowsAffected=>{
         res.status(201).end()

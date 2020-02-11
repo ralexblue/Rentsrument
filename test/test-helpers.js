@@ -55,8 +55,6 @@ function cleanTables(db){
 }
 function seedInstruments(db,instruments){
     return db.into('instrument').insert(instruments)
-    
-
 }
 
 
