@@ -25,6 +25,9 @@ const userService={
     getAllusers(knex){
         return knex.select('*').from('users')
     },
+    getAllInstrumentsForUser(knex,id){
+        return knex.from('instrument').select('*').where('user_id',id)
+    },
     insertUser(db, newUser) {
         return db
         .insert(newUser)

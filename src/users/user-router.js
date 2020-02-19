@@ -5,7 +5,8 @@ const jsonBodyParser = express.json()
 const path = require('path')
 const userService =require('./user-service')
 const logger = require('../logger');
-
+const { requireAuth } = require('../middleware/jwt-auth')
+const instrumentService=require('../instruments/instrument-service')
 usersRouter
 .route('/')
 .post(jsonBodyParser, (req, res,next) => {
@@ -48,7 +49,7 @@ usersRouter
     })
   .catch(next)  
 })
-.get((req, res,next) => {
+.get((req,res,next) => {
   userService.getAllusers(req.app.get('db'))
   .then(users=>{
     res.json(userService.serializedUsers(users))
@@ -59,7 +60,7 @@ usersRouter
 usersRouter
 .route('/:id')
 .all((req,res,next)=>{
-  const userid =req.params.id;
+  const userid = req.params.id;
   userService.getById(req.app.get('db'),userid)
   .then(user=>{
     if(!user){
@@ -76,6 +77,23 @@ usersRouter
 .get((req,res)=>{
   res.json(userService.serializedUser(res.user))
 })
+usersRouter
+.route('/instruments/:id')
+.get((req,res,next)=>{
+  const userid = req.params.id;
+  userService.getAllInstrumentsForUser(req.app.get('db'),userid)
+  .then(inst=>{
+    if(!inst){
+      logger.error(`instruments with user-id ${userid} not found`)
+      return res.status(404).json({
+        error:{message:`User instruments Not Found`}
+      })
+    }
+    res.json(instrumentService.serializedInstruments(inst))
+  })
+  .catch(next)
+})
+
 
 
 module.exports = usersRouter

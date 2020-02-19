@@ -16,7 +16,8 @@ instrumentRouter
     .catch(next)
 })
 .post(requireAuth,bodyParser,(req,res,next)=>{
-    const {image,name,description,category} =req.body;
+    const {image,name,description,category} = req.body;
+    console.log(name);
     const newInstrument={image,name,description,category}
     for (const [key, value] of Object.entries(newInstrument)){
       if (value == null){
@@ -29,7 +30,7 @@ instrumentRouter
     instrumentService.addanitem(req.app.get('db'),newInstrument)
     .then(instrument=>{
         res.status(201)
-        .location(path.posix.join(req.originalUrl, `/${instrument.id}`))
+        .location(path.posix.join(req.originalUrl,`/${instrument.id}`))
         .json(instrumentService.serializedInstrument(instrument))
     })
     .catch(next)
@@ -79,6 +80,29 @@ instrumentRouter
     instrumentService.updateitem(req.app.get('db'),req.params.id,updateInstrument)
     .then(numRowsAffected=>{
         res.status(201).end()
+    })
+    .catch(next)
+})
+instrumentRouter
+.route('/users/:id')
+.get((req,res,next)=>{
+    const userinstrument_id=req.params.id;
+    //console.log(userinstrument_id);
+    instrumentService.getUserWhoOwnsinst(req.app.get('db'),userinstrument_id)
+    .then(user=>{
+        if(!user){
+            logger.error(`Instrument with id ${userinstrument_id} not found`)
+            return res.status(400).json({
+                error:{message:`User who owns Instrument Not Found`}
+            })
+        }
+        console.log(user);
+        instrumentService.getByUserId(req.app.get('db'),user.user_id)
+        .then(oneuser=>{
+            res.oneuser=oneuser;
+            res.json(instrumentService.serializedUserforinst(res.oneuser))
+            next()
+        })
     })
     .catch(next)
 })

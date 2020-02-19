@@ -44,7 +44,6 @@ describe('instrument endpoints',()=>{
                 .get('/api/instruments')
                 .expect(200,testInstruments)
             })
-
         })
     })
 })
