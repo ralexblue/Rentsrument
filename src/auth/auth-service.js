@@ -2,6 +2,7 @@
 const jwt = require('jsonwebtoken')
 const config = require('../config')
 const bcrypt = require('bcryptjs')
+
 const authService ={
     comparePasswords(password, hash) {
         return bcrypt.compare(password, hash)

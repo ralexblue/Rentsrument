@@ -45,5 +45,9 @@ describe('instrument endpoints',()=>{
                 .expect(200,testInstruments)
             })
         })
+
     })
+    describe('Post request',()=>{})
+    describe('delete request',()=>{})
+    describe('patch request',()=>{})
 })

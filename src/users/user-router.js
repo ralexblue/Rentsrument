@@ -77,6 +77,26 @@ usersRouter
 .get((req,res)=>{
   res.json(userService.serializedUser(res.user))
 })
+.patch(requireAuth,jsonBodyParser,(req,res,next)=>{
+  const {user_name,full_name,email,contact} =req.body;
+  const updateUser={id:req.params.id,user_name,full_name,email,contact}
+  if (!updateUser.user_name || !updateUser.full_name) {
+      return res.status(400).json({
+        error: {
+          message: `Request body must contain either 'user_name','full_name'`
+        }
+      })
+  }
+  userService.updateitem(req.app.get('db'),req.params.id,updateUser)
+  .then(numRowsAffected=>{
+      res.status(201).end()
+  })
+  .catch(next)
+})
+
+
+
+
 usersRouter
 .route('/instruments/:id')
 .get((req,res,next)=>{
