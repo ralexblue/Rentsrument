@@ -17,7 +17,6 @@ instrumentRouter
 })
 .post(requireAuth,bodyParser,(req,res,next)=>{
     const {image,name,description,category} = req.body;
-    console.log(name);
     const newInstrument={image,name,description,category}
     for (const [key, value] of Object.entries(newInstrument)){
       if (value == null){
@@ -87,7 +86,6 @@ instrumentRouter
 .route('/users/:id')
 .get((req,res,next)=>{
     const userinstrument_id=req.params.id;
-    //console.log(userinstrument_id);
     instrumentService.getUserWhoOwnsinst(req.app.get('db'),userinstrument_id)
     .then(user=>{
         if(!user){
@@ -96,7 +94,6 @@ instrumentRouter
                 error:{message:`User who owns Instrument Not Found`}
             })
         }
-        console.log(user);
         instrumentService.getByUserId(req.app.get('db'),user.user_id)
         .then(oneuser=>{
             res.oneuser=oneuser;
