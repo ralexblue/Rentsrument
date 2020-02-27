@@ -3,7 +3,7 @@ const xss = require('xss')
 
 const instrumentService={
     getAllinstruments(knex){
-        return knex.select('*').from('instrument')
+            return knex.select('*').from('users').leftJoin('instrument','users.id','=','instrument.user_id')
     },
     addanitem(knex,newitem){
         return knex
@@ -34,24 +34,28 @@ const instrumentService={
         .update(newupdatefield)
     },
     serializedInstrument(inst){
+    if(inst.id){
         return{
             id:inst.id,
             image:xss(inst.image),
             name:xss(inst.name),
             decription:xss(inst.description),
+            user_id:(inst.user_id),
+            user_name:xss(inst.user_name),
+            email:xss(inst.email),
+            contact:xss(inst.contact),  
             date_created:inst.date_created
         }
-    },
-    serializedUserforinst(user){
-        return{
-            id:user.id,
-            user_name:xss(user.user_name),
-            email:xss(user.email),
-            contact:xss(user.contact),  
-        }
+    }
+    else{
+        return 0;
+    }
+        
     },
     serializedInstruments(allinst){
-        return allinst.map(inst=>this.serializedInstrument(inst))
+        const all=allinst.map(inst=>this.serializedInstrument(inst))
+        const newall =all.filter(instrument=> instrument !== 0 )
+        return newall
     }
 }
 module.exports=instrumentService;

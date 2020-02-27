@@ -11,6 +11,7 @@ instrumentRouter
 .get((req,res,next)=>{
     instrumentService.getAllinstruments(req.app.get('db'))
     .then(instruments=>{
+        //res.json(instruments)
         res.json(instrumentService.serializedInstruments(instruments))
     })
     .catch(next)
