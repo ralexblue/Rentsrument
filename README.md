@@ -11,8 +11,8 @@ The endpoints used are:
 /users "POST,PATCH"
 /Login "POST"
 
-![Image of app](https://drive.google.com/file/d/19je9iMu2WdfnWNhY6ymWMr1WZ1kjaVlq/view?usp=sharing)
-![Image of app2](https://drive.google.com/file/d/1uGNI4OzFQqtY7y7A0EA4_M_mNoCGYftc/view?usp=sharing)
+![Image of app](https://drive.google.com/file/d/19je9iMu2WdfnWNhY6ymWMr1WZ1kjaVlq/view)
+![Image of app2](https://drive.google.com/file/d/1uGNI4OzFQqtY7y7A0EA4_M_mNoCGYftc/view)
 
 summary:
 My app should function similarly to another popular application called Craiglist,but rather than multiple objects it should only be used to rent Instruments for people who have that extra guitar or  people who had never touched their bought drums. 
